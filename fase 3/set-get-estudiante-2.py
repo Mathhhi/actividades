@@ -30,3 +30,11 @@ for i in range (3):
     
     e = Estudiante(nombre, nota)
     estudiantes.append(e)        
+
+
+print("\n--- Lista de Estudiantes ---")
+
+for est in estudiantes:
+    print("nombre: ", est.nombre)
+    print("nota: ", est.get_nota(), "\n")
+        
