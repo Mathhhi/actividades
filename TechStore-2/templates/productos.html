@@ -49,7 +49,6 @@
             <span class="badge bg-warning text-dark fs-6 fw-bold px-3 py-2">Total: {{ productos | length }}</span>
         </div>
 
-        <>
         <div class="mb-4">
             <a href="/registro_producto" class="btn btn-success fw-semibold shadow-sm">
                 <i class="bi bi-plus-lg me-1"></i> Registrar Producto
@@ -66,6 +65,7 @@
                             <th class="py-3">Nombre</th>
                             <th class="py-3">Precio</th>
                             <th class="pe-4 py-3">Categoría</th>
+                            <th class="pe-4 py-3">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +85,16 @@
                                 <span class="badge bg-secondary text-white fs-7 py-2 px-3 rounded-pill shadow-sm">{{ producto.categoria }}</span>
                                 {% endif %}
                             </td>
+                            <td class="pe-4">
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-warning text-white" onclick="confirmEdit('{{ producto.codigo }}')">
+                                        <i class="bi bi-pencil-fill"></i> Editar
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{{ producto.codigo }}')">
+                                        <i class="bi bi-trash-fill"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
                         </tr>   
                         {% endfor %}
                     </tbody>
@@ -96,5 +106,53 @@
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% for category, message in messages %}
+                Swal.fire({
+                    icon: '{% if category == 'success' %}success{% else %}error{% endif %}',
+                    title: '{{ message | escapejs }}',
+                    confirmButtonText: 'Aceptar'
+                });
+                {% endfor %}
+            });
+        </script>
+        {% endif %}
+    {% endwith %}
+
+    <script>
+        function confirmDelete(codigo) {
+            Swal.fire({
+                title: '¿Seguro que quieres eliminar este producto?',
+                text: 'Esta acción eliminará el producto de forma permanente.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/eliminar_producto/' + codigo;
+                }
+            });
+        }
+
+        function confirmEdit(codigo) {
+            Swal.fire({
+                title: '¿Deseas editar este producto?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, editar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/editar_producto/' + codigo;
+                }
+            });
+        }
+    </script>
 </body>
 </html> 

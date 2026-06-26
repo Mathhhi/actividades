@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from database.conexion import obtener_conexion
 
 app = Flask(__name__)
+app.secret_key = "clave_super_secreta_techstore"
 
 @app.route("/")
 def inicio():
@@ -83,6 +84,59 @@ def guardar_producto():
         exito=exito,
         mensaje=mensaje
     )
+
+@app.route("/editar_producto/<string:codigo>")
+def editar_producto(codigo):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM productos WHERE codigo = %s", (codigo,))
+    producto = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+
+    if not producto:
+        flash("Producto no encontrado.", "error")
+        return redirect(url_for("productos"))
+
+    return render_template("editar_productos.html", producto=producto)
+
+@app.route("/actualizar_producto", methods=["POST"])
+def actualizar_producto():
+    codigo = request.form.get("codigo")
+    nombre = request.form["nombre"]
+    precio = request.form["precio"]
+    categoria = request.form["categoria"]
+
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(
+            "UPDATE productos SET nombre = %s, precio = %s, categoria = %s WHERE codigo = %s",
+            (nombre, precio, categoria, codigo)
+        )
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        flash("Producto actualizado correctamente.", "success")
+    except Exception as e:
+        flash(f"No se pudo actualizar el producto: {e}", "error")
+
+    return redirect(url_for("productos"))
+
+@app.route("/eliminar_producto/<string:codigo>")
+def eliminar_producto(codigo):
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute("DELETE FROM productos WHERE codigo = %s", (codigo,))
+        conexion.commit()
+        cursor.close()
+        conexion.close()
+        flash("Producto eliminado correctamente.", "success")
+    except Exception as e:
+        flash(f"No se pudo eliminar el producto: {e}", "error")
+
+    return redirect(url_for("productos"))
 
 app.run(debug=True)
 
