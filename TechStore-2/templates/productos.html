@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - TechStore</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
+        <div class="container">
+            <a class="navbar-brand text-primary fw-bold" href="/"><i class="bi bi-cpu"></i> TECHSTORE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/productos">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nosotros">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contacto">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="container">
+        
+        
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white p-3 rounded mb-4 shadow">
+            <h4 class="mb-0 fw-bold">Gestión de Productos</h4>
+            <span class="badge bg-warning text-dark fs-6 fw-bold px-3 py-2">Total: {{ productos | length }}</span>
+        </div>
+
+        <>
+        <div class="mb-4">
+            <a href="/registro_producto" class="btn btn-success fw-semibold shadow-sm">
+                <i class="bi bi-plus-lg me-1"></i> Registrar Producto
+            </a>
+        </div>
+
+        
+        <div class="card shadow border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="ps-4 py-3">Código</th>
+                            <th class="py-3">Nombre</th>
+                            <th class="py-3">Precio</th>
+                            <th class="pe-4 py-3">Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td class="ps-4 fw-semibold text-muted">{{ producto.codigo }}</td>
+                            <td class="fw-medium text-dark">{{ producto.nombre }}</td>
+                            <td class="fw-semibold text-dark">{{ producto.precio_formateado }}</td>
+                            <td class="pe-4">
+                                {% if producto.categoria == 'Computadores' %}
+                                <span class="badge bg-info text-white fs-7 py-2 px-3 rounded-pill shadow-sm">Computadores</span>
+                                {% elif producto.categoria == 'Monitores' %}
+                                <span class="badge bg-primary text-white fs-7 py-2 px-3 rounded-pill shadow-sm">Monitores</span>
+                                {% elif producto.categoria == 'Accesorios' %}
+                                <span class="badge bg-info text-white fs-7 py-2 px-3 rounded-pill shadow-sm">Accesorios</span>
+                                {% else %}
+                                <span class="badge bg-secondary text-white fs-7 py-2 px-3 rounded-pill shadow-sm">{{ producto.categoria }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>   
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
