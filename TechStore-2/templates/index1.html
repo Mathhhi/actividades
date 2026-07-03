@@ -65,7 +65,7 @@
                                 <a class="nav-link" href="/contacto">Contacto</a>
                             </li>
                         </ul>
-                        <!--Actualizacion del boton buscar-->
+                        
                         <form class="d-flex me-3 mb-2" role="search">
                             <div class="input-group">
                                 <input class="form-control form-control-sm" type="search"
@@ -74,7 +74,7 @@
                                         class="bi bi-search"></i></button>
                             </div>
                         </form>
-                        <!--Version del carrito en pantallas pequeñas-->
+                        
                         <div class="d-lg-none mb-2">
                             <a href="#" class="btn btn-outline-warning text-white position-relative w-100">
                                 <i class="bi bi-cart"></i>
@@ -89,9 +89,9 @@
                                 Iniciar sesión
                             </button>
                         </div>
-                    </div><!--fin collapse-->
+                    </div>
 
-                    <!--Version del carrito en pantallas grandes-->
+                  
                     <div class="d-none d-lg-flex ms-2 ">
                         <a href="#" class="text-white position-relative">
                             <i class="bi bi-cart"></i>
@@ -102,9 +102,9 @@
                 </div>
             </nav>
         </div>
-    </div><!--nav-->
+    </div>
 
-    <div class="row mb-2"><!--carousell-->
+    <div class="row mb-2">
         <div class="col-12">
             <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -142,24 +142,32 @@
     <main class="container" id="main">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="fw-bold">Productos Destacados</h3>
-            <a href="#" class="text-decoration-none">Ver todo <i class="bi bi-arrow-right"></i></a>
+            <a href="/productos" class="text-decoration-none">Ver todo <i class="bi bi-arrow-right"></i></a>
         </div>
         <div class="row g-4">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-                <div class="card h-100 shadow-sm border-0">
-                    <span class="position-absolute badge bg-danger m-2">Oferta</span>
-                    <img src="https://placehold.co/200x150/orange/white/" class="card-img-top" alt="...">
-                    <div class="card-body d-flex flex-column">
-                        <h6 class="text-muted mb-1">Laptops</h6>
-                        <h5 class="card-title mb-2">MacBook Pro M3 - 14"</h5>
-                        <p class="card-text text-primary fw-bold fs-5">$3.500.000</p>
-                        <div class="mt-auto d-grid gap-2">
-                            <button class="btn btn-outline-dark btn-sm">Detalles</button>
-                            <button class="btn btn-success btn-sm"><i class="bi bi-cart-plus"></i>Añadir</button>
+            {% if productos_destacados %}
+                {% for producto in productos_destacados %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <div class="card h-100 shadow-sm border-0 position-relative">
+                        <span class="position-absolute badge bg-danger m-2">Destacado</span>
+                        <img src="https://placehold.co/200x150/0d6efd/white?text={{ producto.nombre | replace(' ', '+') }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="text-muted mb-1">{{ producto.categoria }}</h6>
+                            <h5 class="card-title mb-2">{{ producto.nombre }}</h5>
+                            <p class="card-text text-primary fw-bold fs-5">{{ producto.precio_formateado }}</p>
+                            <div class="mt-auto d-grid gap-2">
+                                <a href="/editar_producto/{{ producto.codigo }}" class="btn btn-outline-dark btn-sm">Detalles</a>
+                                <a href="/registro_producto" class="btn btn-success btn-sm"><i class="bi bi-cart-plus"></i>Añadir</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-warning">No hay productos registrados todavía.</div>
+                </div>
+            {% endif %}
         </div>
     </main>
 
@@ -196,7 +204,7 @@
                         <i class="bi bi-twitter-x"></i>
                     </div>
                 </div>
-            </div><!--fin row-->
+            </div>
             <hr class="my-4 border-secondary">
             <div class="text-center small">
                 <p class="">&copy; 2026 TechStore Colombia. Desarrollado para ADSO.</p>
@@ -205,7 +213,7 @@
     </footer>
 
 
-    <!-- Modal ver detalles-->
+    
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -224,7 +232,7 @@
         </div>
     </div>
 
-    <!--Modal login-->
+    
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -263,7 +271,7 @@
         </div>
     </div>
 
-    <!-- Modal Registro -->
+    
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -295,7 +303,7 @@
 
                     </form>
 
-                    <!-- volver a login -->
+                    
                     <div class="text-center mt-3">
                         <small>
                             ¿Ya tienes cuenta?
