@@ -1,4 +1,5 @@
 MYSQL_HOST = "localhost"
+MYSQL_PORT = 3307
 MYSQL_USER = "root"
 MYSQL_PASSWORD = ""
 MYSQL_DATABASE = "techstore"

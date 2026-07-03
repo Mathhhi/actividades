@@ -1,35 +1,83 @@
+import re
+from decimal import Decimal, InvalidOperation
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from database.conexion import obtener_conexion
 
 app = Flask(__name__)
 app.secret_key = "clave_super_secreta_techstore"
 
+
+def formatear_precio(precio):
+    try:
+        return f"$ {int(precio):,}"
+    except (ValueError, TypeError, KeyError):
+        return f"$ {precio}"
+
+
+def obtener_productos():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM productos ORDER BY nombre")
+    productos = cursor.fetchall()
+    cursor.close()
+    conexion.close()
+
+    for producto in productos:
+        producto["precio_formateado"] = formatear_precio(producto.get("precio", 0))
+
+    return productos
+
+
+def validar_datos_producto(datos):
+    errores = []
+    codigo = (datos.get("codigo") or "").strip()
+    nombre = (datos.get("nombre") or "").strip()
+    precio = (datos.get("precio") or "").strip()
+    categoria = (datos.get("categoria") or "").strip()
+
+    if not codigo:
+        errores.append("El código del producto es obligatorio.")
+    elif not re.fullmatch(r"\d+", codigo):
+        errores.append("El código del producto solo debe contener números.")
+
+    if not nombre:
+        errores.append("El nombre del producto es obligatorio.")
+    elif re.search(r"\d", nombre):
+        errores.append("El nombre no debe contener números.")
+
+    if not categoria:
+        errores.append("La categoría es obligatoria.")
+    elif re.search(r"\d", categoria):
+        errores.append("La categoría no debe contener números.")
+
+    if not precio:
+        errores.append("El precio es obligatorio.")
+    else:
+        if re.fullmatch(r"-\d+(?:\.\d{1,2})?", precio):
+            errores.append("El precio no puede ser negativo.")
+        elif not re.fullmatch(r"\d+(?:\.\d{1,2})?", precio):
+            errores.append("El precio debe ser un número válido.")
+        else:
+            try:
+                precio_valor = Decimal(precio)
+                if precio_valor < 0:
+                    errores.append("El precio no puede ser negativo.")
+            except InvalidOperation:
+                errores.append("El precio debe ser un número válido.")
+
+    return errores
+
+
 @app.route("/")
 def inicio():
-    return render_template("index1.html")
+    productos = obtener_productos()
+    return render_template("index1.html", productos=productos)
 
 @app.route("/productos")
 def productos():
-    conexion = obtener_conexion()
-
-    cursor = conexion.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM productos")
-
-    productos = cursor.fetchall()
-
-    cursor.close()
-
-    conexion.close()
-
-    # Formatear precio para mostrarlo con formato de moneda ($ 3,500,000)
-    for p in productos:
-        try:
-            p['precio_formateado'] = f"$ {int(p['precio']):,}"
-        except (ValueError, TypeError, KeyError):
-            p['precio_formateado'] = f"$ {p.get('precio', 0)}"
-
-    return render_template("productos.html",productos=productos)
+    productos = obtener_productos()
+    return render_template("productos.html", productos=productos)
 
 @app.route("/contacto")
 def contacto():
@@ -49,17 +97,37 @@ def catalogo():
 
 @app.route("/registro_producto")
 def registro_producto():
-    return render_template("registro_producto.html")
+    return render_template("registro_producto.html", editar=False, errores=[])
 
 @app.route("/guardar_producto",methods=["POST"])
 def guardar_producto():
-    codigo = request.form["codigo"]
-    nombre = request.form["nombre"]
-    precio = request.form["precio"]
-    categoria = request.form["categoria"]
+    codigo = request.form.get("codigo", "").strip()
+    nombre = request.form.get("nombre", "").strip()
+    precio = request.form.get("precio", "").strip()
+    categoria = request.form.get("categoria", "").strip()
 
-    exito = False
-    mensaje = ""
+    errores = validar_datos_producto({
+        "codigo": codigo,
+        "nombre": nombre,
+        "precio": precio,
+        "categoria": categoria,
+    })
+
+    if errores:
+        for error in errores:
+            flash(error, "error")
+        return render_template(
+            "registro_producto.html",
+            editar=False,
+            errores=errores,
+            datos={
+                "codigo": codigo,
+                "nombre": nombre,
+                "precio": precio,
+                "categoria": categoria,
+            },
+        )
+
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
@@ -70,20 +138,11 @@ def guardar_producto():
         conexion.commit()
         cursor.close()
         conexion.close()
-        exito = True
-        mensaje = "Producto registrado y guardado con éxito en la base de datos."
+        flash("Producto registrado correctamente.", "success")
+        return redirect(url_for("productos"))
     except Exception as e:
-        mensaje = f"Error al guardar en la base de datos: {e}"
-
-    return render_template(
-        "respuesta.html",
-        codigo=codigo,
-        nombre=nombre,
-        precio=precio,
-        categoria=categoria,
-        exito=exito,
-        mensaje=mensaje
-    )
+        flash(f"Error al guardar en la base de datos: {e}", "error")
+        return redirect(url_for("registro_producto"))
 
 @app.route("/editar_producto/<string:codigo>")
 def editar_producto(codigo):
@@ -98,21 +157,43 @@ def editar_producto(codigo):
         flash("Producto no encontrado.", "error")
         return redirect(url_for("productos"))
 
-    return render_template("editar_productos.html", producto=producto)
+    return render_template("editar_productos.html", producto=producto, errores=[])
 
 @app.route("/actualizar_producto", methods=["POST"])
 def actualizar_producto():
-    codigo = request.form.get("codigo")
-    nombre = request.form["nombre"]
-    precio = request.form["precio"]
-    categoria = request.form["categoria"]
+    codigo_original = request.form.get("codigo_original", "").strip()
+    codigo = request.form.get("codigo", "").strip()
+    nombre = request.form.get("nombre", "").strip()
+    precio = request.form.get("precio", "").strip()
+    categoria = request.form.get("categoria", "").strip()
+
+    errores = validar_datos_producto({
+        "codigo": codigo,
+        "nombre": nombre,
+        "precio": precio,
+        "categoria": categoria,
+    })
+
+    if errores:
+        for error in errores:
+            flash(error, "error")
+        return render_template(
+            "editar_productos.html",
+            producto={
+                "codigo": codigo_original,
+                "nombre": nombre,
+                "precio": precio,
+                "categoria": categoria,
+            },
+            errores=errores,
+        )
 
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(
             "UPDATE productos SET nombre = %s, precio = %s, categoria = %s WHERE codigo = %s",
-            (nombre, precio, categoria, codigo)
+            (nombre, precio, categoria, codigo_original)
         )
         conexion.commit()
         cursor.close()
@@ -138,7 +219,8 @@ def eliminar_producto(codigo):
 
     return redirect(url_for("productos"))
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
 
 # TechStore/
 # │
