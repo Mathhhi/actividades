@@ -115,7 +115,7 @@
                 {% for category, message in messages %}
                 Swal.fire({
                     icon: '{% if category == 'success' %}success{% else %}error{% endif %}',
-                    title: '{{ message | escapejs }}',
+                    title: {{ message | tojson }},
                     confirmButtonText: 'Aceptar'
                 });
                 {% endfor %}
