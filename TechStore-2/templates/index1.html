@@ -365,6 +365,14 @@
           <div class="modal-body">
             <h5 class="text-center mb-3">Iniciar sesión</h5>
             <form method="POST" action="/login">
+              <input type="hidden" name="origen" value="index" />
+              {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                  {% if category == "error" %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                  {% endif %}
+                {% endfor %}
+              {% endwith %}
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
                 <input
@@ -456,23 +464,51 @@
               </div>
 
               <div class="mb-3">
+                <label class="form-label" for="registroTelefono">Teléfono</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="registroTelefono"
+                    name="telefono"
+                    placeholder="Ej. 3001234567"
+                    autocomplete="tel"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
                 <label class="form-label">Contraseña</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  name="contraseña"
-                  required
-                />
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="registroContrasena"
+                    name="contraseña"
+                    required
+                  />
+                  <button class="btn btn-outline-secondary" type="button" onclick="alternarContrasena('registroContrasena', this)" aria-label="Mostrar contraseña">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Confirmar contraseña</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  name="confirmar_contraseña"
-                  required
-                />
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="registroConfirmarContrasena"
+                    name="confirmar_contraseña"
+                    required
+                  />
+                  <button class="btn btn-outline-secondary" type="button" onclick="alternarContrasena('registroConfirmarContrasena', this)" aria-label="Mostrar confirmación de contraseña">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
               </div>
 
               <button class="btn btn-primary w-100">Registrarse</button>
@@ -498,5 +534,21 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function alternarContrasena(idCampo, boton) {
+        const campo = document.getElementById(idCampo);
+        const visible = campo.type === "text";
+        campo.type = visible ? "password" : "text";
+        boton.querySelector("i").className = visible ? "bi bi-eye" : "bi bi-eye-slash";
+        boton.setAttribute("aria-label", visible ? "Mostrar contraseña" : "Ocultar contraseña");
+      }
+    </script>
+    {% if request.args.get("login_error") %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("loginModal")).show();
+      });
+    </script>
+    {% endif %}
   </body>
 </html>

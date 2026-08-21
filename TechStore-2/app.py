@@ -1,7 +1,8 @@
 import re
+from io import BytesIO
 from decimal import Decimal, InvalidOperation
 
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file
 from werkzeug.security import check_password_hash, generate_password_hash
 from database.conexion import obtener_conexion
 
@@ -27,6 +28,19 @@ def admin_required(f):
         if session.get("rol") != "Administrador":
             flash("No tienes permisos de administrador.", "error")
             return redirect(url_for("inicio"))
+        return f(*args, **kwargs)
+    wrapper.__name__ = f.__name__
+    return wrapper
+
+
+def cliente_required(f):
+    def wrapper(*args, **kwargs):
+        if "usuario_id" not in session:
+            flash("Debes iniciar sesión para acceder a esta página.", "error")
+            return redirect(url_for("login"))
+        if session.get("rol") != "Cliente":
+            flash("Esta sección es exclusiva para clientes.", "error")
+            return redirect(url_for("admin"))
         return f(*args, **kwargs)
     wrapper.__name__ = f.__name__
     return wrapper
@@ -99,8 +113,8 @@ def validar_datos_producto(datos, codigo_original=None):
                 precio_valor = Decimal(precio)
                 if precio_valor <= 0:
                     errores.append("El precio debe ser mayor que cero.")
-                elif precio_valor > Decimal("5000000"):
-                    errores.append("El precio no puede ser mayor a 5000000.")
+                elif precio_valor > Decimal("50000000"):
+                    errores.append("El precio no puede ser mayor a 50000000.")
             except InvalidOperation:
                 errores.append("El precio debe ser un número válido.")
 
@@ -146,10 +160,12 @@ def login():
             session["rol"] = usuario["rol"]
             flash("Inicio de sesión exitoso.", "success")
             if usuario["rol"] == "Administrador":
-                return redirect("/admin.html")
-            return redirect("/")
+                return redirect(url_for("admin"))
+            return redirect(url_for("dashboard_cliente"))
 
         flash("Correo o contraseña incorrectos.", "error")
+        if request.form.get("origen") == "index":
+            return redirect(url_for("inicio", login_error=1))
 
     return render_template("login.html")
 
@@ -158,10 +174,11 @@ def registro_usuario():
     if request.method == "POST":
         nombre = request.form.get("nombre", "").strip()
         correo = request.form.get("correo", "").strip()
+        telefono = request.form.get("telefono", "").strip()
         contraseña = request.form.get("contraseña", "")
         confirmar = request.form.get("confirmar_contraseña", "")
 
-        if not nombre or not correo or not contraseña:
+        if not nombre or not correo or not telefono or not contraseña or not confirmar:
             flash("Todos los campos son obligatorios.", "error")
             return render_template("registro_usuario.html")
 
@@ -180,8 +197,8 @@ def registro_usuario():
 
         password_hash = generate_password_hash(contraseña)
         cursor.execute(
-            "INSERT INTO usuarios (nombre, correo, contrasena, rol, estado) VALUES (%s, %s, %s, %s, %s)",
-            (nombre, correo, password_hash, "usuario", "Activo"),
+            "INSERT INTO usuarios (nombre, correo, telefono, `contraseña`, rol, estado) VALUES (%s, %s, %s, %s, %s, %s)",
+            (nombre, correo, telefono, password_hash, "Cliente", "Activo"),
         )
         conexion.commit()
         cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (correo,))
@@ -193,7 +210,7 @@ def registro_usuario():
         session["nombre"] = usuario["nombre"]
         session["rol"] = usuario["rol"]
         flash("Registro exitoso. Ya puedes usar la tienda.", "success")
-        return redirect("/")
+        return redirect(url_for("dashboard_cliente"))
 
     return render_template("registro_usuario.html")
 
@@ -208,6 +225,63 @@ def logout():
 @admin_required
 def admin():
     return render_template("admin.html")
+
+
+@app.route("/dashboard_cliente", methods=["GET", "POST"])
+@cliente_required
+def dashboard_cliente():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    if request.method == "POST":
+        accion = request.form.get("accion", "datos")
+        if accion == "contraseña":
+            contraseña_actual = request.form.get("contraseña_actual", "")
+            contraseña_nueva = request.form.get("contraseña_nueva", "")
+            confirmar_contraseña = request.form.get("confirmar_contraseña", "")
+            cursor.execute(
+                "SELECT `contraseña` FROM usuarios WHERE id = %s",
+                (session["usuario_id"],),
+            )
+            usuario_password = cursor.fetchone()
+            if not contraseña_actual or not contraseña_nueva or not confirmar_contraseña:
+                flash("Todos los campos de contraseña son obligatorios.", "error")
+            elif not usuario_password or not verificar_password(usuario_password["contraseña"], contraseña_actual):
+                flash("La contraseña actual no es correcta.", "error")
+            elif contraseña_nueva != confirmar_contraseña:
+                flash("Las nuevas contraseñas no coinciden.", "error")
+            elif len(contraseña_nueva) < 6:
+                flash("La nueva contraseña debe tener al menos 6 caracteres.", "error")
+            else:
+                cursor.execute(
+                    "UPDATE usuarios SET `contraseña` = %s WHERE id = %s",
+                    (generate_password_hash(contraseña_nueva), session["usuario_id"]),
+                )
+                conexion.commit()
+                flash("Contraseña actualizada correctamente.", "success")
+        else:
+            nombre = request.form.get("nombre", "").strip()
+            telefono = request.form.get("telefono", "").strip()
+            if not nombre or not telefono:
+                flash("Nombre y teléfono son obligatorios.", "error")
+            else:
+                # El correo se consulta desde la base y nunca se toma del formulario.
+                cursor.execute(
+                    "UPDATE usuarios SET nombre = %s, telefono = %s WHERE id = %s",
+                    (nombre, telefono, session["usuario_id"]),
+                )
+                conexion.commit()
+                session["nombre"] = nombre
+                flash("Datos actualizados correctamente.", "success")
+
+    cursor.execute(
+        "SELECT id, nombre, correo, telefono, rol FROM usuarios WHERE id = %s",
+        (session["usuario_id"],),
+    )
+    usuario = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+    return render_template("dashboard_cliente.html", usuario=usuario)
 
 @app.route("/productos")
 @app.route("/productos.html")
@@ -360,6 +434,43 @@ def eliminar_producto(codigo):
         flash(f"No se pudo eliminar el producto: {e}", "error")
 
     return redirect(url_for("productos"))
+
+
+@app.route("/productos/pdf")
+@admin_required
+def productos_pdf():
+    from reportlab.lib import colors
+    from reportlab.lib.pagesizes import letter
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import SimpleDocTemplate, Spacer, Table, TableStyle, Paragraph
+
+    productos = obtener_productos()
+    buffer = BytesIO()
+    documento = SimpleDocTemplate(buffer, pagesize=letter, title="Productos TechStore")
+    estilos = getSampleStyleSheet()
+    elementos = [Paragraph("Registro de productos TechStore", estilos["Title"]), Spacer(1, 12)]
+    filas = [["Código", "Nombre", "Precio", "Categoría"]]
+    filas.extend([
+        [producto["codigo"], producto["nombre"], producto["precio_formateado"], producto["categoria"]]
+        for producto in productos
+    ])
+    tabla = Table(filas, repeatRows=1)
+    tabla.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#212529")),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f1f3f5")]),
+        ("PADDING", (0, 0), (-1, -1), 8),
+    ]))
+    elementos.append(tabla)
+    documento.build(elementos)
+    buffer.seek(0)
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="productos-techstore.pdf",
+        mimetype="application/pdf",
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

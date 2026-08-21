@@ -9,6 +9,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
   </head>
 
   <body class="bg-light">
@@ -92,7 +93,7 @@
                     required
                     inputmode="decimal"
                     pattern="\d+(\.\d{1,2})?"
-                    title="Ingrese un precio válido, mayor que cero y menor o igual a 5000000."
+                    title="Ingrese un precio válido, mayor que cero y menor o igual a 50000000."
                     value="{{ datos.precio if datos else '' }}"
                     oninput="
                       this.value = this.value
@@ -117,7 +118,7 @@
                 </div>
 
                 <div class="d-grid gap-2">
-                  <button class="btn btn-primary">Guardar Producto</button>
+                  <button class="btn btn-primary"><i class="bi bi-save me-1"></i>Guardar Producto</button>
                   <a href="/admin" class="btn btn-outline-secondary">
                     Volver al panel de admin
                   </a>
