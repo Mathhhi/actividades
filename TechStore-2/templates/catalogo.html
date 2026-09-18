@@ -183,6 +183,21 @@
 
     <div class="row g-4">
 
+        {% for producto in productos %}
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100 shadow">
+                <img src="{{ url_imagen_producto(producto.imagen) }}" class="card-img-top" alt="{{ producto.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="text-muted">{{ producto.categoria }}</p>
+                    <h4 class="text-primary">{{ producto.precio_formateado }}</h4>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12"><div class="alert alert-info">No hay productos registrados.</div></div>
+        {% endfor %}
+
         <!-- Producto -->
 
         <div class="col-lg-3 col-md-6">

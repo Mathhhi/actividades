@@ -29,26 +29,26 @@
                             </ul>
                         </div>
                         {% endif %}
-                        <form action="/guardar_producto" method="POST">
+                        <form action="/guardar_producto" method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label class="form-label">
                                     Código
                                 </label>
-                                <input type="text" name="codigo" class="form-control" value="{{ codigo or '' }}" required>
+                                <input type="text" name="codigo" class="form-control" value="{{ codigo or '' }}" pattern="P[0-9]{3}" minlength="4" maxlength="4" placeholder="P001" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">
                                     Nombre
                                 </label>
-                                <input type="text" name="nombre" class="form-control" value="{{ nombre or '' }}" required>
+                                <input type="text" name="nombre" class="form-control" value="{{ nombre or '' }}" minlength="5" maxlength="100" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">
                                     Precio
                                 </label>
-                                <input type="number" step="0.01" min="0.01" name="precio" class="form-control" value="{{ precio or '' }}" required>
+                                <input type="number" step="0.01" min="0.01" max="50000000" name="precio" class="form-control" value="{{ precio or '' }}" required>
                             </div>
 
                             <div class="mb-3">
@@ -56,6 +56,11 @@
                                     Categoría
                                 </label>
                                 <input type="text" name="categoria" class="form-control" value="{{ categoria or '' }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Imagen del producto</label>
+                                <input type="file" name="imagen" class="form-control" accept=".png,.jpg,.jpeg,.webp" required>
                             </div>
 
                             <button class="btn btn-primary w-100">

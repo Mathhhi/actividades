@@ -53,6 +53,9 @@
             <a href="/registro_producto" class="btn btn-success fw-semibold shadow-sm">
                 <i class="bi bi-plus-lg me-1"></i> Registrar Producto
             </a>
+            <a href="{{ url_for('admin') }}" class="btn btn-outline-dark fw-semibold shadow-sm ms-2">
+                Panel administrativo
+            </a>
         </div>
 
         
@@ -135,7 +138,7 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/eliminar_producto/' + codigo;
+                    fetch('/eliminar_producto/' + codigo, {method: 'POST'}).then(() => window.location.reload());
                 }
             });
         }
