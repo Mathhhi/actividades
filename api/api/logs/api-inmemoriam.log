@@ -1,0 +1,94 @@
+2026-11-23 17:03:24 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 21.0.13.1 with PID 9848 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api\api)
+2026-11-23 17:03:24 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 17:03:24 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 17:03:30 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-11-23 17:03:30 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 17:03:30 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 17:03:30 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 6008 ms
+2026-11-23 17:03:31 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-11-23 17:03:33 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-11-23 17:03:33 [main] INFO  c.m.api.ApiApplication - Started ApiApplication in 10.386 seconds (process running for 11.977)
+2026-11-23 17:03:58 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-23 17:03:58 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-23 17:03:58 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2026-11-23 17:03:59 [http-nio-8081-exec-8] INFO  c.m.api.controller.DifuntoController - Solicitud GET /api/difuntos - page=0, size=1
+2026-11-23 17:03:59 [http-nio-8081-exec-2] INFO  c.m.api.controller.DifuntoController - Solicitud GET /api/difuntos - page=0, size=10
+2026-11-23 17:03:59 [http-nio-8081-exec-8] INFO  c.m.api.service.DifuntoService - Iniciando consulta paginada de difuntos - página: 0, tamaño: 1
+2026-11-23 17:03:59 [http-nio-8081-exec-2] INFO  c.m.api.service.DifuntoService - Iniciando consulta paginada de difuntos - página: 0, tamaño: 10
+2026-11-23 17:03:59 [http-nio-8081-exec-2] DEBUG c.m.api.repository.DifuntoRepository - Consultando difuntos - página: 0, tamaño: 10, offset: 0
+2026-11-23 17:03:59 [http-nio-8081-exec-8] DEBUG c.m.api.repository.DifuntoRepository - Consultando difuntos - página: 0, tamaño: 1, offset: 0
+2026-11-23 17:03:59 [http-nio-8081-exec-8] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2026-11-23 17:03:59 [http-nio-8081-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2026-11-23 17:03:59 [http-nio-8081-exec-8] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [SELECT * FROM difuntos ORDER BY id LIMIT ? OFFSET ?]
+2026-11-23 17:03:59 [http-nio-8081-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [SELECT * FROM difuntos ORDER BY id LIMIT ? OFFSET ?]
+2026-11-23 17:03:59 [http-nio-8081-exec-8] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:03:59 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:04:00 [http-nio-8081-exec-8] DEBUG o.s.jdbc.core.JdbcTemplate - Executing SQL query [SELECT COUNT(*) FROM difuntos]
+2026-11-23 17:04:00 [http-nio-8081-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing SQL query [SELECT COUNT(*) FROM difuntos]
+2026-11-23 17:04:00 [http-nio-8081-exec-8] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:04:00 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:04:00 [http-nio-8081-exec-8] INFO  c.m.api.service.DifuntoService - Consulta completada - 1 difuntos encontrados, 5 páginas en total
+2026-11-23 17:04:00 [http-nio-8081-exec-2] INFO  c.m.api.service.DifuntoService - Consulta completada - 5 difuntos encontrados, 1 páginas en total
+2026-11-23 17:04:00 [http-nio-8081-exec-8] INFO  c.m.api.controller.DifuntoController - Respuesta exitosa GET /api/difuntos
+2026-11-23 17:04:00 [http-nio-8081-exec-2] INFO  c.m.api.controller.DifuntoController - Respuesta exitosa GET /api/difuntos
+2026-11-23 17:18:30 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 21.0.13.1 with PID 13600 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api\api)
+2026-11-23 17:18:30 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 17:18:30 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 17:18:31 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-11-23 17:18:32 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 17:18:32 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 17:18:32 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1830 ms
+2026-11-23 17:18:32 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-11-23 17:18:32 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-11-23 17:18:32 [main] INFO  c.m.api.ApiApplication - Started ApiApplication in 3.788 seconds (process running for 4.564)
+2026-11-23 17:18:44 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-23 17:18:44 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-23 17:18:44 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-11-23 17:18:44 [http-nio-8081-exec-1] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Invalid UTF-8 middle byte 0x61]
+2026-11-23 17:18:54 [http-nio-8081-exec-5] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('\' (code 92)): was expecting double-quote to start property name]
+2026-11-23 17:19:19 [http-nio-8081-exec-6] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot map `null` into type `int` (set `DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES` to 'false' to allow)]
+2026-11-23 17:20:23 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 21.0.13.1 with PID 29168 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api\api)
+2026-11-23 17:20:23 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 17:20:23 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 17:20:25 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-11-23 17:20:25 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 17:20:25 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 17:20:25 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1865 ms
+2026-11-23 17:20:25 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-11-23 17:20:26 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-11-23 17:20:26 [main] INFO  c.m.api.ApiApplication - Started ApiApplication in 3.878 seconds (process running for 4.701)
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  c.m.api.controller.DifuntoController - Solicitud POST /api/difuntos - nuevo registro para: Jorge Luis Borges
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  c.m.api.service.DifuntoService - Registrando nuevo difunto: Jorge Luis Borges
+2026-11-23 17:20:57 [http-nio-8081-exec-2] DEBUG c.m.api.repository.DifuntoRepository - Insertando nuevo difunto: Jorge Luis Borges
+2026-11-23 17:20:57 [http-nio-8081-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing SQL update and returning generated keys
+2026-11-23 17:20:57 [http-nio-8081-exec-2] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement
+2026-11-23 17:20:57 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  c.m.api.service.DifuntoService - Difunto registrado exitosamente con id: 6
+2026-11-23 17:20:57 [http-nio-8081-exec-2] INFO  c.m.api.controller.DifuntoController - Difunto creado exitosamente con id: 6
+2026-11-23 17:20:57 [http-nio-8081-exec-1] INFO  c.m.api.controller.DifuntoController - Solicitud PUT /api/difuntos/6
+2026-11-23 17:20:57 [http-nio-8081-exec-1] INFO  c.m.api.service.DifuntoService - Iniciando actualización del difunto con id: 6
+2026-11-23 17:20:57 [http-nio-8081-exec-1] DEBUG c.m.api.repository.DifuntoRepository - Buscando difunto con id: 6
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [SELECT * FROM difuntos WHERE id = ?]
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG c.m.api.repository.DifuntoRepository - Actualizando difunto con id: 6
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL update
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [UPDATE difuntos SET nombre = ?, apellido = ?, fecha_nacimiento = ?, fecha_muerte = ?, lugar_nacimiento = ?, lugar_muerte = ?, causa_muerte = ?, epitafio = ?, activo = ? WHERE id = ?]
+2026-11-23 17:20:58 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:20:58 [http-nio-8081-exec-1] INFO  c.m.api.service.DifuntoService - Difunto con id: 6 actualizado correctamente
+2026-11-23 17:20:58 [http-nio-8081-exec-1] INFO  c.m.api.controller.DifuntoController - Difunto con id 6 actualizado correctamente
+2026-11-23 17:20:58 [http-nio-8081-exec-3] INFO  c.m.api.controller.DifuntoController - Solicitud DELETE /api/difuntos/6
+2026-11-23 17:20:58 [http-nio-8081-exec-3] INFO  c.m.api.service.DifuntoService - Iniciando eliminación del difunto con id: 6
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG c.m.api.repository.DifuntoRepository - Buscando difunto con id: 6
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL query
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [SELECT * FROM difuntos WHERE id = ?]
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG c.m.api.repository.DifuntoRepository - Eliminando difunto con id: 6
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL update
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.core.JdbcTemplate - Executing prepared SQL statement [DELETE FROM difuntos WHERE id = ?]
+2026-11-23 17:20:58 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2026-11-23 17:20:58 [http-nio-8081-exec-3] INFO  c.m.api.service.DifuntoService - Difunto con id: 6 eliminado correctamente
+2026-11-23 17:20:58 [http-nio-8081-exec-3] INFO  c.m.api.controller.DifuntoController - Difunto con id 6 eliminado - respuesta exitosa

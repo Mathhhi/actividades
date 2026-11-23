@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InMemoriam — Registro de Difuntos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-icon">✦</span>
+        <div>
+          <h1>InMemoriam</h1>
+          <p>Sistema de Gestión de Registros (CRUD Completo)</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-label" id="statusLabel">Conectando…</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ═════════════════════════════════════════════════════════════ -->
+  <main class="main-container">
+
+    <!-- ── Barra de herramientas ─────────────────────────────────────── -->
+    <section class="toolbar card">
+
+      <!-- Botón Nuevo Registro -->
+      <div class="toolbar-group">
+        <label class="toolbar-label">Acción</label>
+        <button class="btn btn-success" onclick="abrirModalCrear()">
+          <span>&#10010;</span> Nuevo Difunto
+        </button>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- Buscar por ID -->
+      <div class="toolbar-group">
+        <label class="toolbar-label">Buscar por ID</label>
+        <div class="input-row">
+          <input type="number" id="searchId" class="input-field" placeholder="Ej. 3" min="1" />
+          <button class="btn btn-primary" onclick="buscarPorId()">
+            <span>&#128269;</span> Buscar
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- Eliminar por ID -->
+      <div class="toolbar-group">
+        <label class="toolbar-label">Eliminar registro</label>
+        <div class="input-row">
+          <input type="number" id="deleteId" class="input-field" placeholder="Ej. 3" min="1" />
+          <button class="btn btn-danger" onclick="confirmarEliminacion()">
+            <span>&#128465;</span> Eliminar
+          </button>
+        </div>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <!-- Recargar -->
+      <div class="toolbar-group">
+        <label class="toolbar-label">Tabla principal</label>
+        <button class="btn btn-secondary" onclick="cargarDifuntos()">
+          <span>&#8635;</span> Recargar
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ── Toast de notificación ────────────────────────────────────── -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- ── Panel de detalle (buscar por ID) ─────────────────────────── -->
+    <section id="detailPanel" class="card detail-panel hidden">
+      <div class="detail-header">
+        <h2 class="section-title">Detalle del Difunto</h2>
+        <div class="detail-actions">
+          <button class="btn btn-primary btn-sm" id="btnEditarDetalle" onclick="editarDesdeDetalle()">
+            <span>&#9998;</span> Editar
+          </button>
+          <button class="btn btn-danger btn-sm" id="btnEliminarDetalle" onclick="eliminarDesdeDetalle()">
+            <span>&#128465;</span> Eliminar
+          </button>
+          <button class="btn-close" onclick="cerrarDetalle()" title="Cerrar">&#x2715;</button>
+        </div>
+      </div>
+      <div id="detailContent"></div>
+    </section>
+
+    <!-- ── Tabla de difuntos ─────────────────────────────────────────── -->
+    <section class="card">
+      <div class="section-header">
+        <h2 class="section-title">Listado de Difuntos</h2>
+        <div class="page-size-row">
+          <label>Registros por página:</label>
+          <select id="pageSize" class="select-field" onchange="cambiarTamano()">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Spinner -->
+      <div id="spinner" class="spinner-wrap">
+        <div class="spinner"></div>
+        <p>Cargando registros…</p>
+      </div>
+
+      <!-- Tabla -->
+      <div class="table-wrap" id="tableWrap" style="display:none;">
+        <table class="data-table" id="difuntosTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Fecha Nacimiento</th>
+              <th>Fecha Muerte</th>
+              <th>Lugar Nacimiento</th>
+              <th>Lugar Muerte</th>
+              <th>Causa Muerte</th>
+              <th>Epitafio</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Estado vacío -->
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">✦</div>
+        <p>No se encontraron registros.</p>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination" id="pagination" style="display:none;">
+        <div class="pag-info">
+          <span id="pagInfo">Página 1 de 1 — 0 registros</span>
+        </div>
+        <div class="pag-controls">
+          <button class="btn-pag" id="btnPrimera"  onclick="irAPagina(0)"             title="Primera">&#171;</button>
+          <button class="btn-pag" id="btnAnterior" onclick="irAPagina(paginaActual-1)" title="Anterior">&#8249;</button>
+          <div id="paginasBotones" class="paginas-botones"></div>
+          <button class="btn-pag" id="btnSiguiente" onclick="irAPagina(paginaActual+1)" title="Siguiente">&#8250;</button>
+          <button class="btn-pag" id="btnUltima"   onclick="irAPagina(totalPaginas-1)"  title="Última">&#187;</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ══ MODAL FORMULARIO (CREAR / EDITAR) ═════════════════════════════════ -->
+  <div id="formModalOverlay" class="modal-overlay hidden">
+    <div class="modal-box modal-form-box">
+      <div class="modal-header-row">
+        <h3 class="modal-title" id="formModalTitle">Registrar Difunto</h3>
+        <button class="btn-close" onclick="cerrarModalForm()" title="Cerrar">&#x2715;</button>
+      </div>
+      <form id="difuntoForm" onsubmit="guardarDifunto(event)">
+        <input type="hidden" id="formDifuntoId" value="" />
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="formNombre">Nombre <span class="required">*</span></label>
+            <input type="text" id="formNombre" class="input-form" placeholder="Ej. Gabriel" required />
+          </div>
+
+          <div class="form-group">
+            <label for="formApellido">Apellido <span class="required">*</span></label>
+            <input type="text" id="formApellido" class="input-form" placeholder="Ej. García Márquez" required />
+          </div>
+
+          <div class="form-group">
+            <label for="formFechaNacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="formFechaNacimiento" class="input-form" />
+          </div>
+
+          <div class="form-group">
+            <label for="formFechaMuerte">Fecha de Fallecimiento <span class="required">*</span></label>
+            <input type="date" id="formFechaMuerte" class="input-form" required />
+          </div>
+
+          <div class="form-group">
+            <label for="formLugarNacimiento">Lugar de Nacimiento</label>
+            <input type="text" id="formLugarNacimiento" class="input-form" placeholder="Ciudad, País" />
+          </div>
+
+          <div class="form-group">
+            <label for="formLugarMuerte">Lugar de Fallecimiento</label>
+            <input type="text" id="formLugarMuerte" class="input-form" placeholder="Ciudad, País" />
+          </div>
+
+          <div class="form-group">
+            <label for="formCausaMuerte">Causa de Muerte</label>
+            <input type="text" id="formCausaMuerte" class="input-form" placeholder="Ej. Causa natural" />
+          </div>
+
+          <div class="form-group">
+            <label for="formActivo">Estado</label>
+            <select id="formActivo" class="input-form">
+              <option value="true" selected>Activo</option>
+              <option value="false">Inactivo</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="formEpitafio">Epitafio o Mensaje</label>
+            <textarea id="formEpitafio" class="input-form textarea-form" rows="3" placeholder="Mensaje recordatorio..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" onclick="cerrarModalForm()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnGuardar">
+            <span>&#10004;</span> Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ══ MODAL CONFIRMACIÓN ELIMINACIÓN ═══════════════════════════════════ -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-icon">&#9888;</div>
+      <h3 class="modal-title">Confirmar eliminación</h3>
+      <p class="modal-body" id="modalBody">¿Está seguro de que desea eliminar este registro?<br/>Esta acción no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+        <button class="btn btn-danger"    onclick="ejecutarEliminacion()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <span>InMemoriam &copy; 2026 &nbsp;·&nbsp; API REST: <code>http://localhost:8081/api/difuntos</code></span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

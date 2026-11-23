@@ -1,0 +1,129 @@
+2026-11-23 16:14:47 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 12660 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:14:47 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:14:47 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:14:53 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 16:14:54 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 16:14:54 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 16:14:54 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 6690 ms
+2026-11-23 16:14:56 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-11-23 16:14:56 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-23 16:14:56 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-11-23 16:15:03 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 1284 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:15:03 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:15:03 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:15:09 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 16:15:09 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 16:15:10 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 16:15:10 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 6944 ms
+2026-11-23 16:15:12 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 19712 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:15:12 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:15:12 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:15:13 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-11-23 16:15:13 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-23 16:15:13 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-11-23 16:15:21 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 29472 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:15:21 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:15:21 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:15:25 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 16:15:26 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 16:15:26 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 16:15:26 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 4640 ms
+2026-11-23 16:15:27 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-11-23 16:15:27 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-23 16:15:27 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-11-23 16:15:59 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 28312 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:15:59 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:15:59 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:16:04 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 16:16:04 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 16:16:04 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 16:16:04 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 4980 ms
+2026-11-23 16:16:06 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-11-23 16:16:06 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-23 16:16:06 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2026-11-23 16:31:37 [main] INFO  c.m.api.ApiApplication - Starting ApiApplication using Java 25.0.2 with PID 29140 (C:\Users\APRENDIZ\Downloads\api\api\target\classes started by APRENDIZ in C:\Users\APRENDIZ\Downloads\api)
+2026-11-23 16:31:37 [main] DEBUG c.m.api.ApiApplication - Running with Spring Boot v4.2.0, Spring v7.1.0
+2026-11-23 16:31:37 [main] INFO  c.m.api.ApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 16:31:42 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 16:31:42 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 16:31:42 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-23 16:31:43 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 5209 ms
+2026-11-23 16:31:43 [main] INFO  o.s.b.w.a.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-11-23 16:31:44 [main] WARN  o.s.b.w.s.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-11-23 16:31:44 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-11-23 16:31:45 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
